@@ -27,5 +27,8 @@ urlpatterns = patterns('',
         ),
         name='logout',
     ),
+    url(r'^register/$', register),
+    url(r'^register/success/$', register_success),
+
 
 )
