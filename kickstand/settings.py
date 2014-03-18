@@ -12,12 +12,11 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 import os
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
+from kickstand.config import *
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '3r0lpkqw*+1r2d#%h$=h&3r701qmr)hojjbviu4$g6xqwqp_-('
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -37,7 +36,10 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.gis',
-    'gistest'
+    'bootstrap3',
+    'kickstand',
+    'gistest',
+    'jqm'
 )
 
 MIDDLEWARE_CLASSES = (
@@ -54,17 +56,6 @@ ROOT_URLCONF = 'kickstand.urls'
 WSGI_APPLICATION = 'kickstand.wsgi.application'
 
 
-# Database
-# https://docs.djangoproject.com/en/1.6/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.contrib.gis.db.backends.postgis',
-        'NAME': 'kickstand_db',
-        'USER': 'django_role',
-        'PASSWORD': 'kickhere'
-    }
-}
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
@@ -84,3 +75,16 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
+
+BOOTSTRAP3 = {
+    'jquery_url': '//code.jquery.com/jquery.min.js',
+    'base_url': '//netdna.bootstrapcdn.com/bootstrap/3.1.1/',
+    'css_url': None,
+    'theme_url': '//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css',
+    'javascript_url': None,
+    'horizontal_label_class': 'col-md-2',
+    'horizontal_field_class': 'col-md-4',
+}
+
+LOGIN_REDIRECT_URL = '/'
+
