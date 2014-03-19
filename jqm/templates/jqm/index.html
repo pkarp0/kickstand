@@ -3,15 +3,14 @@
 {% block content %}
 <p>Don't park your bike. Just order at the window from these places.</p>
 {% if user.is_anonymous %}
-    <p>Obviously you love this site, why don't you sign in and stay a while or sign up?</p>
     <a data-role="button" href="{% url 'login' %}">Sign In</a>
     <a data-role="button" href="{% url 'register' %}">Sign Up</a>
-{% else %}
-	<h2 id="list-linked">Browse</h2>
-	<ul data-role="listview">
-	{% for item in items %}
-		<li><a href="#">{{ item.name}}</a></li>
-	{% endfor %}
-	</ul>
 {% endif %}
+<h2 id="list-linked">Browse</h2>
+<ul data-role="listview">
+{% for item in items %}
+	<li><a href="#">{{ item.name}}</a></li>
+{% endfor %}
+</ul>
+
 {% endblock %}
