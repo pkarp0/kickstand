@@ -27,8 +27,8 @@ urlpatterns = patterns('',
         ),
         name='logout',
     ),
-    url(r'^register/$', register),
-    url(r'^register/success/$', register_success),
+    url(r'^register/$', 'jqm.views.register', name='register'),
+    url(r'^register/success/$', 'jqm.views.register_success'),
 
 
 )
