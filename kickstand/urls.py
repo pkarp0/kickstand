@@ -11,7 +11,7 @@ urlpatterns = patterns('',
     # url(r'^blog/', include('blog.urls')),
     #url(r'^$', HomePageView.as_view(), name='home'),
     url(r'^/?$', 'jqm.views.home', name='home'),
-    url(r'/place/(?P<id>[-w]+)/$', 'gistest.views.detail', name='place-detail'),
+    url(r'^place/(?P<id>\d+)/$', 'gistest.views.detail', name='place-detail'),
 
 
     url(r'^admin/', include(admin.site.urls)),

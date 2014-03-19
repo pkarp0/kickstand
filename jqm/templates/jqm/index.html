@@ -9,7 +9,7 @@
 <h2 id="list-linked">Browse</h2>
 <ul data-role="listview">
 {% for item in items %}
-	<li><a href="#">{{ item.name}}</a></li>
+	<li><a href="{% url 'place-detail' item.id %}">{{ item.name}} ({{item.distance|floatformat:2}} mi.)</a></li>
 {% endfor %}
 </ul>
 

@@ -1,15 +1,20 @@
 from django.contrib.gis.db import models
 from django.core.urlresolvers import reverse
 from reversegeo.openstreetmap import OpenStreetMap
+from geopy import distance
 from gistest.tasks import place_save
 
 class PlaceManager(models.GeoManager):
     def browse(self, lat, lon):
-        """return 10 most recent items"""
-        items = self.all().order_by('-id')[:10]
-        for item in items:
-            pass
-        return 
+        """return 10 most recent items
+        and provide distance to each
+        """
+        places = self.all().order_by('-id')[:10]
+        items = []
+        for item in places:
+            item.distance = item.compute_distance(lat, lon)
+            items.append(item)
+        return items 
 
 class Place(models.Model):
     name = models.CharField(max_length=128)
@@ -35,6 +40,11 @@ class Place(models.Model):
         else:
             ret = g.reverse(self.coord, format_string=format_string)
         return ret
-    
+
+    def compute_distance(self, lat, lon):
+        ''' compute distance to lat,lon '''
+        point = "POINT(%s %s)" % (lon, lat)
+        return distance.distance(self.coord, point).miles
+        
     def __unicode__(self):
         return self.name

@@ -8,10 +8,11 @@ from django.template import RequestContext
 from gistest.models import Place
 from jqm.forms import RegistrationForm
 
-def home( request ):
+def home( request, template='jqm/index.html' ):
+    ''' use users lat/lon to show distance to places '''
     return render_to_response(
-        'jqm/index.html',
-        {'items': Place.objects.browse()},
+        template,
+        {'items': Place.objects.browse(40.6728, -73.9789)},
         context_instance = RequestContext( request, {} ),
     )
 
