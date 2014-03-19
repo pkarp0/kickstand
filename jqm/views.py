@@ -10,9 +10,13 @@ from jqm.forms import RegistrationForm
 
 def home( request, template='jqm/index.html' ):
     ''' use users lat/lon to show distance to places '''
+    lat = request.GET.get('lat', 40.67)
+    lon = request.GET.get('lon', -73.97)
     return render_to_response(
         template,
-        {'items': Place.objects.browse(40.6728, -73.9789)},
+        {'items': Place.objects.browse(lat, lon),
+         'point': "POINT(%s %s)" % (lon, lat),
+         },
         context_instance = RequestContext( request, {} ),
     )
 
