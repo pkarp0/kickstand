@@ -20,7 +20,7 @@ def detail(request, id, template='detail.html'):
 RADIUS = 400 #meters
 TYPE = 'food'
 NEARBY_SEARCH = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?'
-NEARBY_SEARCH_PARAMS = 'type=%(type)s&location=%(lat)s,%(lon)s&radius=%(radius)s&sensor=%(sensor)s&key=%(key)s'
+NEARBY_SEARCH_PARAMS = 'types=%(type)s&location=%(lat)s,%(lon)s&radius=%(radius)s&sensor=%(sensor)s&key=%(key)s'
 
 def nearby(request, template='nearby.html'):
     lat = request.GET.get('lat', 0)
