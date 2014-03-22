@@ -1,21 +1,35 @@
-
+import logging
 from django.views.decorators.csrf import csrf_protect
 from django.http import HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-
+from reversegeo.openstreetmap import OpenStreetMap
 from gistest.models import Place
 from jqm.forms import RegistrationForm
+from django.contrib.gis.geos import Point
 
+logger = logging.getLogger(__file__)
 def home( request, template='jqm/index.html' ):
     ''' use users lat/lon to show distance to places '''
-    lat = request.GET.get('lat', 40.67)
-    lon = request.GET.get('lon', -73.97)
+    located = request.GET.get('locate', 1)
+    try:
+        lat = float(request.GET.get('lat', 40.67))
+    except ValueError:
+        logger.error('user=%s; lat=%s' % (request.user, lat))
+        lat = 40.97
+    try:
+        lon = float(request.GET.get('lon', -73.97))
+    except ValueError:
+        logger.error('user=%s; lon=%s' % (request.user, lon))
+        lon = -73.97
+    logger.debug('user=%s; lat=%s; lon=%s' % (request.user, lat, lon))
+    address = OpenStreetMap().reverse(Point(lon, lat))
     return render_to_response(
         template,
         {'items': Place.objects.browse(lat, lon),
-         'point': "POINT(%s %s)" % (lon, lat),
+         'point': address, #"POINT(%s %s)" % (lon, lat),
+         'locate': located
          },
         context_instance = RequestContext( request, {} ),
     )

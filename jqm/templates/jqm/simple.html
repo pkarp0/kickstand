@@ -2,14 +2,20 @@
 {% load i18n %}
 
 {% block jqmheader %}
-    <div data-role="header">
+    <div data-role="header" addBackBtn="{% block backbtn%}false{% endblock %}">
+    	{% block jqmtitle %}
         <h1 class="display-title">
             {% block pagetitle %}{% block title %}{% trans 'Title' %}{% endblock %}{% endblock %}
         </h1>
+        {% endblock %}
+
+        {% block jqmheader-btns %}
         {# logout control for django.contrib.auth #}
         {% if user.is_authenticated %}
             <a href="{% url 'logout' %}" rel="external" class="ui-btn-right logout-button" data-icon="minus" title="Log Out of Your Account for Security"><span class="logout-wide">Logout: </span>{{ user.username }}</a>
         {% endif %}
+        {% endblock %}
+
         {% include "jqm/messages.html" %}
     </div>
 {% endblock jqmheader %}
@@ -22,7 +28,13 @@
 {% endblock jqmcontent %}
 
 {% block jqmfooter %}
-    <div data-role="footer">
-        {% block navmenu %}{% endblock %}
+    <div data-role="footer" class="ui-bar">
+        {% block navmenu %}
+  <a data-role="button" href="{% url 'home' %}" >Browse</a>
+  <a data-role="button" href="#" >Search</a>
+  <a data-role="button" href="#" >Nearby</a>
+  <a data-role="button" href="#" class="ui-icon-plus">Add</a>
+  <a data-role="button" class="ui-btn-right ui-icon-refresh" href="{% url 'home' %}" >Refresh</a>
+        {% endblock %}
     </div>
 {% endblock jqmfooter %}

@@ -1,8 +1,12 @@
+import logging
+from math import atan2
 from django.contrib.gis.db import models
 from django.core.urlresolvers import reverse
 from reversegeo.openstreetmap import OpenStreetMap
 from geopy import distance
 from gistest.tasks import place_save
+
+logger = logging.getLogger(__file__)
 
 class PlaceManager(models.GeoManager):
     def browse(self, lat, lon):
@@ -13,8 +17,28 @@ class PlaceManager(models.GeoManager):
         items = []
         for item in places:
             item.distance = item.compute_distance(lat, lon)
+            item.orientation = self.orientation(int(item.compute_orientation(lat,lon)))
             items.append(item)
-        return items 
+        return items
+    
+    def orientation(self, degree):
+        rotation = [
+                    (-180, -157.5, 'W'),
+                    (-157.5, -112.5, 'SW'),
+                    (-112.5, -67.5, 'S'),
+                    (-67.5, -22.5, 'SE'),
+                    (-22.5, 22.5, 'E'), 
+                    (22.5, 67.5,'NE'), 
+                    (67.5, 112.5, 'N'), 
+                    (112.5, 157.5, 'NW'),
+                    (157.5, 180, 'W'),
+                    ]
+        for min_deg, max_deg, direction in rotation:
+            if degree >= min_deg and degree <= max_deg:
+                return direction
+        logger.error('degree=%s' % degree)
+        return ''
+            
 
 class Place(models.Model):
     name = models.CharField(max_length=128)
@@ -40,6 +64,10 @@ class Place(models.Model):
         else:
             ret = g.reverse(self.coord, format_string=format_string)
         return ret
+
+    def compute_orientation(self, lat, lon):
+        ''' orientation around point lat, lon to self '''
+        return atan2(self.coord.y - lat, self.coord.x - lon) * 57.2957795 # convert radians to deg
 
     def compute_distance(self, lat, lon):
         ''' compute distance to lat,lon '''

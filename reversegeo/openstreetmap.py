@@ -26,11 +26,23 @@ class OpenStreetMap(Geocoder):
             url = self.url % geo
             fp = urlopen(url)
             results = json.loads(fp.read())
+        except Exception as exc:
+            logger.info(exc)
+            return default
+
+        try:            
             logger.info(results)
             address = results['address']
+            if address.get('suburb'):
+                pass # use default format_string
+            else:
+                format_string = format_string.replace('suburb','city')
+            if address.get('house_number'):
+                format_string = '%(house_number)s ' + format_string
+
             result = format_string % address
 
             return result #results.get('display_name', point)
         except Exception as exc:
             logger.info(exc)
-            return default
+            return results

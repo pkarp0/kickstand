@@ -36,6 +36,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.gis',
+    'djcelery',
     'bootstrap3',
     'kickstand',
     'gistest',
@@ -87,4 +88,49 @@ BOOTSTRAP3 = {
 }
 
 LOGIN_REDIRECT_URL = '/'
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(funcName)s %(message)s'
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+    },
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'formatter': 'verbose',
+            'filename': '/var/log/kickstand/kickstand.log',
+        },
+        'console':{
+            'level': 'DEBUG',
+            'class': 'logging.StreamHandler',
+            'formatter': 'simple'
+        },
+    },
+    'loggers': {
+        'geopy': {
+                'handlers': ['file'],
+                'level': 'DEBUG',
+                'propagate': False
+                },
+
+        'jqm': {
+                'handlers': ['file'],
+                'level': 'DEBUG',
+                'propagate': False
+                },
+#        'django.request': {
+#            'handlers': ['file'],
+#            'level': 'DEBUG',
+#            'propagate': True,
+#        },
+    },
+}
+
 

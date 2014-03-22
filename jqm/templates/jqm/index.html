@@ -1,27 +1,36 @@
 {% extends "jqm/simple.html" %}
+
 {% block title %}Kickstand{% endblock %}
-{% block content %}
-<p>Don't park your bike. Just order at the window from these places.</p>
+
+{% block jqmheader-btns %}
 {% if user.is_anonymous %}
+    <div data-role="controlgroup" data-type="horizontal" class="ui-btn-right">
     <a data-role="button" href="{% url 'login' %}">Sign In</a>
     <a data-role="button" href="{% url 'register' %}">Sign Up</a>
+    </div>
 {% endif %}
+{% endblock %}
+
+{% block content %}
+<p>Don't park your bike or tie up your dog. Just order at the window from these places.</p>
 <h2 id="list-linked">Browse</h2>
-<p>{{ point }}</p>
+<h3 id="location">Your location: {{ point }}</h3>
 <ul data-role="listview">
 {% for item in items %}
-	<li><a href="{% url 'place-detail' item.id %}">{{ item.name}} ({{item.distance|floatformat:2}} mi.)</a></li>
+	<li><a href="{% url 'place-detail' item.id %}">{{ item.name}} ({{item.distance|floatformat:2}} mi. {{item.orientation}})</a></li>
 {% endfor %}
 </ul>
-
 {% endblock %}
 
 {% block jqmscripts %}
+{% if locate == 1%}
 <script>
 navigator.geolocation.getCurrentPosition(GetLocation);
 function GetLocation(location) {
 	//alert("/?lat=" + location.coords.latitude + "&lon=" + location.coords.longitude)
-	windows.location = "/?lat=" + location.coords.latitude + "&lon=" + location.coords.longitude;
+	window.location = "/?locate=0&lat=" + location.coords.latitude + "&lon=" + location.coords.longitude;
 }	
 </script>
+{% endif %}
 {% endblock %}
+
