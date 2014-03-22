@@ -20,12 +20,12 @@ def detail(request, id, template='detail.html'):
 RADIUS = 400 #meters
 TYPE = 'food'
 NEARBY_SEARCH = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?'
-NEARBY_SEARCH_PARAMS = 'types=%(type)s&location=%(lat)s,%(lon)s&radius=%(radius)s&sensor=%(sensor)s&key=%(key)s'
+NEARBY_SEARCH_PARAMS = 'types=%(types)s&location=%(lat)s,%(lon)s&radius=%(radius)s&sensor=%(sensor)s&key=%(key)s'
 
 def nearby(request, template='nearby.html'):
     lat = request.GET.get('lat', 0)
     lon = request.GET.get('lon', 0)
-    adict = dict(type=TYPE,
+    adict = dict(types=TYPE,
                  lat=lat,
                  lon=lon,
                  radius=RADIUS,
@@ -37,6 +37,6 @@ def nearby(request, template='nearby.html'):
     results = json.loads(fp.read())
     logger.debug('nearby=%s' % results)
     return render_to_response(template,
-                              {'nearby' : results},
+                              {'nearby' : results['results']},
                               context_instance = RequestContext(request, {})
                               )

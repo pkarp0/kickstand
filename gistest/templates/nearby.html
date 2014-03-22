@@ -7,6 +7,8 @@ Nearby
 
 {% block content %}
   <div class="ui-content" role="main">
-    <h2>{{nearby}}</h2>
+  	{% for item in nearby %}
+    <h2>{{item.name}}: {{item.vicinity}}</h2>
+    {% endfor %}
   </div>
 {% endblock %}
