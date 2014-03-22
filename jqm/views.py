@@ -9,7 +9,7 @@ from gistest.models import Place
 from jqm.forms import RegistrationForm
 from django.contrib.gis.geos import Point
 
-logger = logging.getLogger(__file__)
+logger = logging.getLogger(__name__)
 def home( request, template='jqm/index.html' ):
     ''' use users lat/lon to show distance to places '''
     located = request.GET.get('locate', 1)
@@ -29,7 +29,9 @@ def home( request, template='jqm/index.html' ):
         template,
         {'items': Place.objects.browse(lat, lon),
          'point': address, #"POINT(%s %s)" % (lon, lat),
-         'locate': located
+         'locate': located,
+         'lat': lat,
+         'lon': lon
          },
         context_instance = RequestContext( request, {} ),
     )

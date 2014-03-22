@@ -32,7 +32,7 @@
         {% block navmenu %}
   <a data-role="button" href="{% url 'home' %}" >Browse</a>
   <a data-role="button" href="#" >Search</a>
-  <a data-role="button" href="#" >Nearby</a>
+  <a data-role="button" href="{% url 'nearby' %}?lat={{lat}}&lon={{lon}}" >Nearby</a>
   <a data-role="button" href="#" class="ui-icon-plus">Add</a>
   <a data-role="button" class="ui-btn-right ui-icon-refresh" href="{% url 'home' %}" >Refresh</a>
         {% endblock %}

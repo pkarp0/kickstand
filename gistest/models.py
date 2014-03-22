@@ -6,7 +6,7 @@ from reversegeo.openstreetmap import OpenStreetMap
 from geopy import distance
 from gistest.tasks import place_save
 
-logger = logging.getLogger(__file__)
+logger = logging.getLogger(__name__)
 
 class PlaceManager(models.GeoManager):
     def browse(self, lat, lon):

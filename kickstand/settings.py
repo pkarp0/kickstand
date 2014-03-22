@@ -119,6 +119,11 @@ LOGGING = {
                 'level': 'DEBUG',
                 'propagate': False
                 },
+        'gistest': {
+                'handlers': ['file'],
+                'level': 'DEBUG',
+                'propagate': False
+                },
 
         'jqm': {
                 'handlers': ['file'],
@@ -132,5 +137,4 @@ LOGGING = {
 #        },
     },
 }
-
 
