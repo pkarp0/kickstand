@@ -4,8 +4,9 @@ import logging
 from django.shortcuts import render_to_response
 from django.shortcuts import get_object_or_404
 from django.template import RequestContext
+from django.contrib.gis.geos import Point
 from django.conf import settings
-
+from reversegeo.openstreetmap import OpenStreetMap
 from gistest.models import Place
 
 logger = logging.getLogger(__name__)
@@ -36,7 +37,10 @@ def nearby(request, template='nearby.html'):
     fp = urlopen(url)
     results = json.loads(fp.read())
     logger.debug('nearby=%s' % results)
+    address = OpenStreetMap().reverse(Point(lon, lat))
+
     return render_to_response(template,
-                              {'nearby' : results['results']},
+                              {'address': address,
+                               'nearby' : results['results']},
                               context_instance = RequestContext(request, {})
                               )
