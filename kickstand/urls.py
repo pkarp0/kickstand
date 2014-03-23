@@ -12,7 +12,7 @@ urlpatterns = patterns('',
     #url(r'^$', HomePageView.as_view(), name='home'),
     url(r'^/?$', 'jqm.views.home', name='home'),
     url(r'^place/(?P<id>\d+)/$', 'gistest.views.detail', name='place-detail'),
-    url(r'^nearby/$', 'gistest.views.nearby', name='nearby'),
+    url(r'^add_nearby/$', 'gistest.views.add_nearby', name='add_nearby'),
 
 
     url(r'^admin/', include(admin.site.urls)),

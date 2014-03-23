@@ -12,9 +12,11 @@
 {% endblock %}
 
 {% block content %}
-<p>Don't park your bike or tie up your dog. Just order at the window from these places.</p>
-<h2 id="list-linked">Browse</h2>
-<h3 id="location">Your location: {{ point }}</h3>
+<h2>Don't park your bike or tie up your dog. Just order at the window from these places.</h2>
+<div class="ui-field-contain">
+  	<label for="refresh-1">Your location: {{ point }}</label>   
+  	<a data-role="button" data-inline="true" class="ui-icon-refresh" href="{% url 'home' %}" >Refresh</a>
+</div>
 <ul data-role="listview">
 {% for item in items %}
 	<li><a href="{% url 'place-detail' item.id %}">{{ item.name}} ({{item.distance|floatformat:2}} mi. {{item.orientation}})</a></li>
