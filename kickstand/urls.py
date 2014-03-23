@@ -13,6 +13,7 @@ urlpatterns = patterns('',
     url(r'^/?$', 'jqm.views.home', name='home'),
     url(r'^place/(?P<id>\d+)/$', 'gistest.views.detail', name='place-detail'),
     url(r'^add_nearby/$', 'gistest.views.add_nearby', name='add_nearby'),
+    url(r'^nearby/$', 'gistest.views.nearby', name='nearby'),
 
 
     url(r'^admin/', include(admin.site.urls)),

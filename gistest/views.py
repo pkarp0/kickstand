@@ -24,7 +24,7 @@ TYPE = 'food'
 NEARBY_SEARCH = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?rankby=distance&'
 NEARBY_SEARCH_PARAMS = 'types=%(types)s&location=%(lat)s,%(lon)s&sensor=%(sensor)s&key=%(key)s'
 
-def add_nearby(request, template='nearby.html'):
+def add_nearby(request, template='add.html'):
     lat = float(request.GET.get('lat', 0))
     lon = float(request.GET.get('lon', 0))
     adict = dict(types=TYPE,
@@ -45,3 +45,15 @@ def add_nearby(request, template='nearby.html'):
                                'nearby' : results['results']},
                               context_instance = RequestContext(request, {})
                               )
+def nearby(request, template='nearby.html'):
+    lat = float(request.GET.get('lat', 0))
+    lon = float(request.GET.get('lon', 0))
+    pnt = Point(lon,lat)
+    
+    items = Place.objects.nearby(lat, lon)
+    return render_to_response(template,
+                              {'items': items},
+                              context_instance = RequestContext(request, {})
+                              )
+    
+    

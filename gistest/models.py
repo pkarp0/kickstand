@@ -1,6 +1,8 @@
 import logging
 from math import atan2
 from django.contrib.gis.db import models
+from django.contrib.gis.geos import Point
+from django.contrib.gis.measure import D
 from django.core.urlresolvers import reverse
 from reversegeo.openstreetmap import OpenStreetMap
 from geopy import distance
@@ -9,6 +11,16 @@ from gistest.tasks import place_save
 logger = logging.getLogger(__name__)
 
 class PlaceManager(models.GeoManager):
+    def nearby(self, lat, lon):
+        pnt = Point(lon,lat)
+        places = Place.objects.filter(coord__distance_lt=(pnt, D(mi=20)) )
+        items = []
+        for item in places:
+            item.distance = item.compute_distance(lat, lon)
+            item.orientation = self.orientation(int(item.compute_orientation(lat,lon)))
+            items.append(item)
+        return items
+    
     def browse(self, lat, lon):
         """return 10 most recent items
         and provide distance to each
