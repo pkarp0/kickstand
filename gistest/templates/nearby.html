@@ -8,8 +8,13 @@ Nearby
 {% block content %}
   <div class="ui-content" role="main">
   	<h3>Current: {{address}}</h3>
-  	{% for item in nearby %}
-    <h2>{{item.name}}: {{item.vicinity}}</h2>
-    {% endfor %}
+	<div class="ui-field-contain">
+  	<label for="select-choice-1" class="select">Select:</label>
+  		<select name="select-choice-1" id="select-choice-1">
+	  		{% for item in nearby %}
+    		<option value="{{item.name}}">{{item.name}}: {{item.vicinity}}</option>
+    		{% endfor %}
+  		</select>
+	</div>
   </div>
 {% endblock %}

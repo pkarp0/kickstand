@@ -20,8 +20,9 @@ def detail(request, id, template='detail.html'):
                               )
 RADIUS = 400 #meters
 TYPE = 'food'
-NEARBY_SEARCH = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?'
-NEARBY_SEARCH_PARAMS = 'types=%(types)s&location=%(lat)s,%(lon)s&radius=%(radius)s&sensor=%(sensor)s&key=%(key)s'
+
+NEARBY_SEARCH = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?rankby=distance&'
+NEARBY_SEARCH_PARAMS = 'types=%(types)s&location=%(lat)s,%(lon)s&sensor=%(sensor)s&key=%(key)s'
 
 def nearby(request, template='nearby.html'):
     lat = float(request.GET.get('lat', 0))
@@ -36,7 +37,7 @@ def nearby(request, template='nearby.html'):
     url = NEARBY_SEARCH + params
     fp = urlopen(url)
     results = json.loads(fp.read())
-    logger.debug('nearby=%s' % results)
+    logger.debug('nearby=%s' % results.get('results', results))
     address = OpenStreetMap().reverse(Point(lon, lat))
 
     return render_to_response(template,
