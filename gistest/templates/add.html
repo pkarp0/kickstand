@@ -41,7 +41,7 @@ navigator.geolocation.getCurrentPosition(GetLocation);
 function GetLocation(location) {
 
 		// alert("/?lat=" + location.coords.latitude + "&lon=" + location.coords.longitude);
-		window.location = "/?locate=0&lat=" + location.coords.latitude + "&lon=" + location.coords.longitude;
+		window.location = "{% url 'add_nearby' %}?locate=0&lat=" + location.coords.latitude + "&lon=" + location.coords.longitude;
 }
 {% endif %}
 </script>
