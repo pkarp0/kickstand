@@ -35,5 +35,14 @@ $('#select-choice-1').change(function(){
     $('#id_coord').val( $('#select-choice-1 :selected').data('coord'));
     $('#id_address').val( $('#select-choice-1 :selected').data('vicinity'));
 });
+
+{% if locate == 1%}
+navigator.geolocation.getCurrentPosition(GetLocation);	
+function GetLocation(location) {
+
+		// alert("/?lat=" + location.coords.latitude + "&lon=" + location.coords.longitude);
+		window.location = "/?locate=0&lat=" + location.coords.latitude + "&lon=" + location.coords.longitude;
+}
+{% endif %}
 </script>
 {% endblock %}

@@ -35,7 +35,7 @@ def add(request):
 def add_nearby(request, template='add.html'):
     if request.method == 'POST':
         return add(request)
-        
+    located = request.GET.get('locate', 1)
     lat = float(request.GET.get('lat', 40.67))
     lon = float(request.GET.get('lon', -73.97))
     adict = dict(types=TYPE,
@@ -52,7 +52,8 @@ def add_nearby(request, template='add.html'):
     address = OpenStreetMap().reverse(Point(lon, lat))
 
     return render_to_response(template,
-                              {'point': address,
+                              {'locate': located,
+                               'point': address,
                                'nearby' : results['results']},
                               context_instance = RequestContext(request, {})
                               )
