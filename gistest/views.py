@@ -8,6 +8,7 @@ from django.contrib.gis.geos import Point
 from django.conf import settings
 from reversegeo.openstreetmap import OpenStreetMap
 from gistest.models import Place
+from gistest.forms import PlaceForm
 
 logger = logging.getLogger(__name__)
 
@@ -24,9 +25,18 @@ TYPE = 'food'
 NEARBY_SEARCH = 'https://maps.googleapis.com/maps/api/place/nearbysearch/json?rankby=distance&'
 NEARBY_SEARCH_PARAMS = 'types=%(types)s&location=%(lat)s,%(lon)s&sensor=%(sensor)s&key=%(key)s'
 
+def add(request):
+    form = PlaceForm(request.POST)
+    if form.is_valid():
+        form.save()
+    return HttpRedirectResponse('/')
+
 def add_nearby(request, template='add.html'):
-    lat = float(request.GET.get('lat', 0))
-    lon = float(request.GET.get('lon', 0))
+    if request.method == 'POST':
+        return add(request)
+        
+    lat = float(request.GET.get('lat', 40.67))
+    lon = float(request.GET.get('lon', -73.97))
     adict = dict(types=TYPE,
                  lat=lat,
                  lon=lon,
@@ -37,7 +47,7 @@ def add_nearby(request, template='add.html'):
     url = NEARBY_SEARCH + params
     fp = urlopen(url)
     results = json.loads(fp.read())
-    logger.debug('nearby=%s' % results.get('results', results))
+    logger.debug('params=%s; nearby=%s' % (params, results.get('results', results)))
     address = OpenStreetMap().reverse(Point(lon, lat))
 
     return render_to_response(template,
@@ -45,6 +55,7 @@ def add_nearby(request, template='add.html'):
                                'nearby' : results['results']},
                               context_instance = RequestContext(request, {})
                               )
+
 def nearby(request, template='nearby.html'):
     lat = float(request.GET.get('lat', 0))
     lon = float(request.GET.get('lon', 0))
@@ -52,7 +63,10 @@ def nearby(request, template='nearby.html'):
     
     items = Place.objects.nearby(lat, lon)
     return render_to_response(template,
-                              {'items': items},
+                              {'items': items,
+                               'lat': lat,
+                               'lon': lon
+                               },
                               context_instance = RequestContext(request, {})
                               )
     

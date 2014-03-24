@@ -28,10 +28,13 @@
 {% if locate == 1%}
 <script>
 navigator.geolocation.getCurrentPosition(GetLocation);
+	
 function GetLocation(location) {
-	//alert("/?lat=" + location.coords.latitude + "&lon=" + location.coords.longitude)
-	window.location = "/?locate=0&lat=" + location.coords.latitude + "&lon=" + location.coords.longitude;
-}	
+
+		// alert("/?lat=" + location.coords.latitude + "&lon=" + location.coords.longitude);
+		window.location = "/?locate=0&lat=" + location.coords.latitude + "&lon=" + location.coords.longitude;
+}
+
 </script>
 {% endif %}
 {% endblock %}
