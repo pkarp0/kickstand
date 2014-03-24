@@ -57,14 +57,17 @@ def add_nearby(request, template='add.html'):
                               context_instance = RequestContext(request, {})
                               )
 
-def nearby(request, template='nearby.html'):
+def nearby(request, template='jqm/index.html'):
     lat = float(request.GET.get('lat', 0))
     lon = float(request.GET.get('lon', 0))
     pnt = Point(lon,lat)
+    address = OpenStreetMap().reverse(Point(lon, lat))
     
     items = Place.objects.nearby(lat, lon)
     return render_to_response(template,
                               {'items': items,
+                               'point': address,
+                               'located': 0,
                                'lat': lat,
                                'lon': lon
                                },
