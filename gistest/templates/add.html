@@ -12,7 +12,7 @@ Add
   	<label for="select-choice-1" class="select">Select:</label>
   		<select name="select-choice-1" id="select-choice-1">
 	  		{% for item in nearby %}
-    		<option value="{{item.name}}">{{item.name}}: {{item.vicinity}}</option>
+    		<option value="{{item.name}}" data-vicinity="{{item.vicinity}}" data-coord="POINT{{item.geometry.location.lng}} {{item.geometry.location.lat}})">{{item.name}}: {{item.vicinity}}</option>
     		{% endfor %}
   		</select>
 	</div>
@@ -26,11 +26,11 @@ Add
 {% endblock %}
 
 {% block jqmscripts %}
+<script>
 $('#select-choice-1').change(function(){
     $('#id_name').val(  $('#select-choice-1').val() );
-    lat = $('#select-choice-1 :selected').data('lat');
-    lon = $('#select-choice-1 :selected').data('lon');
-    $('#id_coord').val('POINT(' + lon + ' ' + lon + ')' );
+    $('#id_coord').val( $('#select-choice-1 :selected').data('coord'));
     $('#id_address').val( $('#select-choice-1 :selected').data('vicinity'));
 });
+</script>
 {% endblock %}
