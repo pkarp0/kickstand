@@ -33,7 +33,9 @@
   <a data-role="button" href="{% url 'home' %}" >Browse</a>
   <a data-role="button" href="#" >Search</a>
   <a data-role="button" href="{% url 'nearby' %}?lat={{lat}}&lon={{lon}}" >Near Me</a>
+  {% if user.is_authenticated %}
   <a data-role="button" href="{% url 'add_nearby' %}?lat={{lat}}&lon={{lon}}" class="ui-icon-plus">Add</a>
+  {% endif %}
         {% endblock %}
     </div>
 {% endblock jqmfooter %}
