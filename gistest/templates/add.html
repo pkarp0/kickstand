@@ -7,7 +7,10 @@ Add
 
 {% block content %}
   <div class="ui-content" role="main">
-  	<h3>Current: {{address}}</h3>
+	<div class="ui-field-contain">
+  		<label for="refresh-1">Your location: {{ point }}</label>   
+  		<a data-role="button" data-inline="true" data-icon="refresh" data-mini="true" href="{% url 'home' %}" >Refresh</a>
+	</div>
 	<div class="ui-field-contain">
   	<label for="select-choice-1" class="select">Select:</label>
   		<select name="select-choice-1" id="select-choice-1">
