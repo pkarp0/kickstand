@@ -1,7 +1,7 @@
 from urllib2 import urlopen
 import json
 import logging
-from django.http import HttpRedirectResponse
+from django.http import HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.shortcuts import get_object_or_404
 from django.template import RequestContext
@@ -30,7 +30,7 @@ def add(request):
     form = PlaceForm(request.POST)
     if form.is_valid():
         form.save()
-    return HttpRedirectResponse('/')
+    return HttpResponseRedirect('/')
 
 def add_nearby(request, template='add.html'):
     if request.method == 'POST':
