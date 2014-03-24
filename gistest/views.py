@@ -52,7 +52,7 @@ def add_nearby(request, template='add.html'):
     address = OpenStreetMap().reverse(Point(lon, lat))
 
     return render_to_response(template,
-                              {'address': address,
+                              {'point': address,
                                'nearby' : results['results']},
                               context_instance = RequestContext(request, {})
                               )
