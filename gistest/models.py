@@ -13,7 +13,7 @@ logger = logging.getLogger(__name__)
 class PlaceManager(models.GeoManager):
     def nearby(self, lat, lon):
         pnt = Point(lon,lat)
-        places = Place.objects.filter(coord__distance_lt=(pnt, D(mi=20)) )
+        places = Place.objects.filter(coord__distance_lt=(pnt, D(mi=20)) ).distance(pnt).order_by('distance')
         items = []
         for item in places:
             item.distance = item.compute_distance(lat, lon)
