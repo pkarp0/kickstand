@@ -1,6 +1,7 @@
 from urllib2 import urlopen
 import json
 import logging
+from django.http import HttpRedirectResponse
 from django.shortcuts import render_to_response
 from django.shortcuts import get_object_or_404
 from django.template import RequestContext
@@ -69,5 +70,3 @@ def nearby(request, template='nearby.html'):
                                },
                               context_instance = RequestContext(request, {})
                               )
-    
-    

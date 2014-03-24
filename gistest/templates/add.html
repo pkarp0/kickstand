@@ -12,17 +12,17 @@ Add
   	<label for="select-choice-1" class="select">Select:</label>
   		<select name="select-choice-1" id="select-choice-1">
 	  		{% for item in nearby %}
-    		<option value="{{item.name}}" data-vicinity="{{item.vicinity}}" data-coord="POINT{{item.geometry.location.lng}} {{item.geometry.location.lat}})">{{item.name}}: {{item.vicinity}}</option>
+    		<option value="{{item.name}}" data-vicinity="{{item.vicinity}}" data-coord="POINT({{item.geometry.location.lng}} {{item.geometry.location.lat}})">{{item.name}}: {{item.vicinity}}</option>
     		{% endfor %}
   		</select>
 	</div>
   </div>
-  <form action=".">
+  <form action="{% url 'add_nearby' %}" method="post">{% csrf_token %}
 	<input id="id_name" maxlength="128" name="name" type="hidden"  />
-	<input id="id_address" type="hidden" />
-	<input id="id_coord" type="hidden" />  	
+	<input id="id_address" name="address" type="hidden" />
+	<input id="id_coord" name="coord" type="hidden" />  	
+	<input type="submit" value="Add">
   </form>
-  <input type="submit" value="Add">
 {% endblock %}
 
 {% block jqmscripts %}
