@@ -12,7 +12,7 @@
         {% block jqmheader-btns %}
 		{% if user.is_anonymous %}
     		<div data-role="controlgroup" data-type="horizontal" class="ui-btn-right">
-    		<a data-role="button" href="{% url 'login' %}">Sign In</a>
+    		<a data-role="button" data-icon="plus" href="{% url 'login' %}">Sign In</a>
     		<a data-role="button" href="{% url 'register' %}">Sign Up</a>
     		</div>
 		{% endif %}
@@ -41,7 +41,7 @@
   <a data-role="button" href="#" >Search</a>
   <a data-role="button" href="{% url 'nearby' %}?lat={{lat}}&lon={{lon}}" >Near Me</a>
   {% if user.is_authenticated %}
-  <a data-role="button" href="{% url 'add_nearby' %}?lat={{lat}}&lon={{lon}}" class="ui-icon-plus">Add</a>
+  <a data-role="button" href="{% url 'add_nearby' %}?lat={{lat}}&lon={{lon}}" data-icon="plus">Add</a>
   {% endif %}
         {% endblock %}
     </div>
