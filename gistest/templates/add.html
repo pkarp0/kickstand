@@ -24,3 +24,13 @@ Add
   </form>
   <input type="submit" value="Add">
 {% endblock %}
+
+{% block jqmscripts %}
+$('#select-choice-1').change(function(){
+    $('#id_name').val(  $('#select-choice-1').val() );
+    lat = $('#select-choice-1 :selected').data('lat');
+    lon = $('#select-choice-1 :selected').data('lon');
+    $('#id_coord').val('POINT(' + lon + ' ' + lon + ')' );
+    $('#id_address').val( $('#select-choice-1 :selected').data('vicinity'));
+});
+{% endblock %}
