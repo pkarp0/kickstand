@@ -9,7 +9,7 @@
   	<label for="refresh-1">Your location: {{ point }}</label>   
   	<a data-role="button" data-inline="true" data-icon="refresh" data-mini="true" href="{% url 'home' %}" >Refresh</a>
 </div>
-<ul data-role="listview">
+<ul data-role="listview" data-filter="true" data-filter-placeholder="Filter places..." data-inset="true">
 {% for item in items %}
 	<li><a href="{% url 'place-detail' item.id %}">{{ item.name}} ({{item.distance|floatformat:2}} mi. {{item.orientation}})</a></li>
 {% endfor %}
