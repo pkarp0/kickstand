@@ -84,7 +84,7 @@ class Place(models.Model):
     def compute_distance(self, lat, lon):
         ''' compute distance to lat,lon '''
         point = (lat, lon)
-        coord = (coord.y, coord.x)
+        coord = (self.coord.y, self.coord.x)
         return distance.distance(coord, point).miles
         
     def __unicode__(self):
