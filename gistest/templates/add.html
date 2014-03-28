@@ -21,9 +21,9 @@ Add
 	</div>
   </div>
   <form action="{% url 'add_nearby' %}" method="post">{% csrf_token %}
-	<input id="id_name" maxlength="128" name="name" type="hidden"  />
-	<input id="id_address" name="address" type="hidden" />
-	<input id="id_coord" name="coord" type="hidden" />  	
+	<input id="id_name" maxlength="128" name="name" type="hidden" value="{{item.0.name}}"/>
+	<input id="id_address" name="address" type="hidden" value="{{item.0.vicinity}}"/>
+	<input id="id_coord" name="coord" type="hidden" value="POINT({{item.0.geometry.location.lng}} {{item.0.geometry.location.lat}})"/>  	
 	<input type="submit" value="Add">
   </form>
 {% endblock %}
