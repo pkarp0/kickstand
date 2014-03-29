@@ -1,0 +1,18 @@
+[
+{
+    "pk": 1, 
+    "model": "places.place", 
+    "fields": {
+        "name": "Scratchbread", 
+        "coord": "POINT (-73.9545375005745029 40.6874111151309279)"
+    }
+},
+{
+    "pk": 2, 
+    "model": "places.place", 
+    "fields": {
+        "name": "Rockaway Taco", 
+        "coord": "POINT (-73.8177716629344900 40.5851231992647925)"
+    }
+}
+]

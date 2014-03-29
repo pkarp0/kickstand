@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'bootstrap3',
     'kickstand',
     'gistest',
+    'places',
     'jqm'
 )
 
@@ -119,7 +120,7 @@ LOGGING = {
                 'level': 'DEBUG',
                 'propagate': False
                 },
-        'gistest': {
+        'places': {
                 'handlers': ['file'],
                 'level': 'DEBUG',
                 'propagate': False

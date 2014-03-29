@@ -1,0 +1,20 @@
+{% extends "jqm/simple.html" %}
+
+
+{% block pagetitle %}
+Add
+{% endblock %}
+
+{% block content %}
+  <div class="ui-content" role="main">
+  	<h3>Current: {{address}}</h3>
+	<div class="ui-field-contain">
+	<ul data-role="listview">
+	{% for item in items %}
+		<li><a href="{% url 'place-detail' item.id %}">{{ item.name}} ({{item.distance|floatformat:2}} mi. {{item.orientation}})</a></li>
+	{% endfor %}
+	</ul>
+		
+	</div>
+  </div>
+{% endblock %}

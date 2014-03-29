@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from reversegeo.openstreetmap import OpenStreetMap
-from gistest.models import Place
+from places.models import Place
 from jqm.forms import RegistrationForm
 from django.contrib.gis.geos import Point
 
