@@ -8,7 +8,7 @@ from django.template import RequestContext
 from django.contrib.gis.geos import Point
 from django.conf import settings
 from reversegeo.openstreetmap import OpenStreetMap
-from places.models import Place
+from places.models import Place, DEFAULT_LAT, DEFAULT_LON
 from places.forms import PlaceForm
 
 logger = logging.getLogger(__name__)
@@ -36,8 +36,12 @@ def add_nearby(request, template='add.html'):
     if request.method == 'POST':
         return add(request)
     located = request.GET.get('locate', 1)
-    lat = float(request.GET.get('lat', 40.67))
-    lon = float(request.GET.get('lon', -73.97))
+    try:
+        lat = float(request.GET.get('lat', DEFAULT_LAT))
+        lon = float(request.GET.get('lon', DEFAULT_LON))
+    except ValueError:
+        lat = DEAULT_LAT
+        lon = DEGAULT_LON
     adict = dict(types=TYPE,
                  lat=lat,
                  lon=lon,
@@ -59,8 +63,12 @@ def add_nearby(request, template='add.html'):
                               )
 
 def nearby(request, template='jqm/index.html'):
-    lat = float(request.GET.get('lat', 0))
-    lon = float(request.GET.get('lon', 0))
+    try:
+        lat = float(request.GET.get('lat', DEFAULT_LAT))
+        lon = float(request.GET.get('lon', DEFAULT_LON))
+    except ValueError:
+        lat = DEFAULT_LAT
+        lon = DEFAULT_LON
     pnt = Point(lon,lat)
     address = OpenStreetMap().reverse(Point(lon, lat))
     

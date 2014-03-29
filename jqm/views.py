@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import render_to_response
 from django.template import RequestContext
 from reversegeo.openstreetmap import OpenStreetMap
-from places.models import Place
+from places.models import Place, DEFAULT_LAT, DEFAULT_LON
 from jqm.forms import RegistrationForm
 from django.contrib.gis.geos import Point
 
@@ -14,15 +14,15 @@ def home( request, template='jqm/index.html' ):
     ''' use users lat/lon to show distance to places '''
     located = request.GET.get('locate', 1)
     try:
-        lat = float(request.GET.get('lat', 40.67))
+        lat = float(request.GET.get('lat', DEFAULT_LAT))
     except ValueError:
         logger.error('user=%s; lat=%s' % (request.user, lat))
-        lat = 40.97
+        lat = DEFAULT_LAT
     try:
-        lon = float(request.GET.get('lon', -73.97))
+        lon = float(request.GET.get('lon', DEFAULT_LON))
     except ValueError:
         logger.error('user=%s; lon=%s' % (request.user, lon))
-        lon = -73.97
+        lon = DEFAULT_LON
     logger.debug('user=%s; lat=%s; lon=%s' % (request.user, lat, lon))
     address = OpenStreetMap().reverse(Point(lon, lat))
     return render_to_response(

@@ -36,8 +36,8 @@ def add_nearby(request, template='add.html'):
     if request.method == 'POST':
         return add(request)
     located = request.GET.get('locate', 1)
-    lat = float(request.GET.get('lat', 40.67))
-    lon = float(request.GET.get('lon', -73.97))
+    lat = float(request.GET.get('lat', DEFAULT_LAT))
+    lon = float(request.GET.get('lon', DEFAULT_LON))
     adict = dict(types=TYPE,
                  lat=lat,
                  lon=lon,

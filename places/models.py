@@ -10,10 +10,13 @@ from places.tasks import place_save
 
 logger = logging.getLogger(__name__)
 
+DEFAULT_LAT = 40.67
+DEFAULT_LON = -73.97
+
 class PlaceManager(models.GeoManager):
     def nearby(self, lat, lon):
         pnt = Point(lon,lat)
-        places = Place.objects.filter(coord__distance_lt=(pnt, D(mi=20)) ).distance(pnt).order_by('distance')
+        places = Place.objects.filter(coord__distance_lt=(pnt, D(mi=5)) ).distance(pnt).order_by('distance')
         items = []
         for item in places:
             item.distance = item.compute_distance(lat, lon)
