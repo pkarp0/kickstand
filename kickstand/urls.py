@@ -11,13 +11,11 @@ urlpatterns = patterns('',
     # url(r'^blog/', include('blog.urls')),
     #url(r'^$', HomePageView.as_view(), name='home'),
     url(r'^/?$', 'jqm.views.home', name='home'),
+
     url(r'^register/$', 'jqm.views.register', name='register'),
     url(r'^register/success/$', 'jqm.views.register_success'),
 
-    url(r'^place/(?P<id>\d+)/$', 'places.views.detail', name='place-detail'),
-    url(r'^add_nearby/$', 'places.views.add_nearby', name='add_nearby'),
-    url(r'^nearby/$', 'places.views.nearby', name='nearby'),
-
+    url(r'^place/', include('places.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(
         r'^accounts/login/$','django.contrib.auth.views.login',

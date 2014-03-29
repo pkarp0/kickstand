@@ -39,7 +39,6 @@ INSTALLED_APPS = (
     'djcelery',
     'bootstrap3',
     'kickstand',
-    'gistest',
     'places',
     'jqm'
 )
