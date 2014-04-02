@@ -1,0 +1,65 @@
+<!DOCTYPE html> 
+<html> 
+<head> 
+    <title>Kickstand</title> 
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0b1/jquery.mobile-1.0b1.min.css" />
+    <link rel="stylesheet" href="/static/css/jqm-django.css" />
+
+    <script src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.0b1/jquery.mobile-1.0b1.min.js"></script>
+    <script src="/static/js/jqm-django.js"></script>
+</head> 
+<body> 
+
+{% include "jqm/page1.html" %}
+{% include "jqm/add_page.html" %}
+<script>
+function places(data){
+ 	var location = "Your location: " + data.point;
+ 	$("#location").html(location);
+ 	var items = [];
+ 	for (var i=0; i < data.items.length; i++) {
+  		var ditem = data.items[i];
+		var item = '<li><a href="/place/' + ditem.pk + '">' + ditem.name + '  (' + ditem.distance.toFixed(2) + ' mi. ' + ditem.orientation + ')</a></li>';
+   		$("#place-content").append(item)
+ 	}
+ 	$("#place-content").listview("refresh");
+}
+
+function GetLocation(location) {
+	// alert("/?lat=" + location.coords.latitude + "&lon=" + location.coords.longitude);
+	qparams = "lat=" + location.coords.latitude + "&lon=" + location.coords.longitude;
+	$.getJSON("{% url 'nearby' %}?" + qparams, places);
+}
+
+function browse_only(err){
+	// hide add button
+	$("#add-button").hide()
+	// hide near button
+	$("#add-button").hide()
+	$.getJSON("{% url 'nearby' %}", places);	
+}
+
+function add_nearby(){
+	$.getJSON("{% url 'add-nearby 5}", function(data){
+		var option =  '<option value="' + {{item.name}} + '" data-vicinity="' + {{item.vicinity}} + '" data-coord="POINT(' + {{item.geometry.location.lng}} + ' ' + {{item.geometry.location.lat}} + ')">' + {{item.name}} + ': ' + {{item.vicinity}} + '</option>';		
+	});
+
+
+}
+
+$(document).ready(function() {
+ 	// initialization code goes here
+ 	$("#page1").bind("pageshow", function(event, ui){
+ 		navigator.geolocation.getCurrentPosition(GetLocation, browse_only);		
+ 	});
+ 	
+	$("#add-page").bind("pageshow", function(event, ui){
+		add_nearby();
+	});
+});
+
+</script>
+
+</body>
+</html>

@@ -8,7 +8,6 @@ from kickstand.views import HomePageView
 urlpatterns = patterns('',
     # Examples:
     # url(r'^$', 'kickstand.views.home', name='home'),
-    # url(r'^blog/', include('blog.urls')),
     #url(r'^$', HomePageView.as_view(), name='home'),
     url(r'^/?$', 'jqm.views.home', name='home'),
 

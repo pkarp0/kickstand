@@ -1,0 +1,8 @@
+    <footer data-role="footer" class="ui-bar">
+  		<a data-role="button" href="/" >Browse</a>
+  		<!-- a data-role="button" href="#" >Search</a -->
+  		<a id="near-button" data-role="button" href="/place/nearby/" >Near Me</a>
+		{% if user.is_authenticated %}
+  		<a id="add-button" data-role="button" href="#add-page" data-icon="plus">Add</a>
+  		{% endif %}
+    </footer>

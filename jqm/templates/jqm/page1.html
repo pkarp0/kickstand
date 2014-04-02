@@ -1,0 +1,14 @@
+<section id="page1" data-role="page" class="django-jqm-page">
+	{% include "jqm/header.html" %}
+    
+    <div class="content" data-role="content">	
+		<h2>Find take out window service.</h2>
+		<div class="ui-field-contain">
+  			<label id="location" for="refresh-1"></label>   
+	  		<a data-role="button" data-inline="true" data-icon="refresh" data-mini="true" href="/" >Refresh</a>
+		</div>
+		<ul id="place-content" data-role="listview" data-filter="true" data-filter-placeholder="Filter places..." data-inset="true">
+		</ul>
+    </div>
+	{% include "jqm/footer.html" %}    
+</section><!-- /page1 -->

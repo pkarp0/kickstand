@@ -1,0 +1,23 @@
+    <header data-role="header" >
+    	{% block jqmtitle %}
+        <h1 class="display-title">
+			Kickstand
+        </h1>
+        {% endblock %}
+
+        {% block jqmheader-btns %}
+		{% if user.is_anonymous %}
+    		<div data-role="controlgroup" data-type="horizontal" class="ui-btn-right">
+    		<a data-role="button" href="{% url 'register' %}" data-icon="plus">Sign Up</a>
+    		<a data-role="button" href="{% url 'login' %}">Sign In</a>
+    		</div>
+		{% endif %}
+
+        {# logout control for django.contrib.auth #}
+        {% if user.is_authenticated %}
+            <a href="{% url 'logout' %}" rel="external" class="ui-btn-right logout-button" data-icon="minus" title="Log Out of Your Account for Security"><span class="logout-wide">Logout: </span>{{ user.username }}</a>
+        {% endif %}
+        {% endblock %}
+
+        {% include "jqm/messages.html" %}
+    </header>

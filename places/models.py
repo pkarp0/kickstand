@@ -4,6 +4,7 @@ from django.contrib.gis.db import models
 from django.contrib.gis.geos import Point
 from django.contrib.gis.measure import D
 from django.core.urlresolvers import reverse
+from django.core import serializers
 from reversegeo.openstreetmap import OpenStreetMap
 from geopy import distance
 from places.tasks import place_save

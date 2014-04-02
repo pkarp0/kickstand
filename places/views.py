@@ -1,7 +1,8 @@
 from urllib2 import urlopen
 import json
 import logging
-from django.http import HttpResponseRedirect
+from django.core import serializers
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
 from django.shortcuts import get_object_or_404
 from django.template import RequestContext
@@ -39,7 +40,7 @@ def add_nearby(request, template='add.html'):
     try:
         lat = float(request.GET.get('lat', DEFAULT_LAT))
         lon = float(request.GET.get('lon', DEFAULT_LON))
-    except ValueError:
+    except (TypeError, ValueError):
         lat = DEAULT_LAT
         lon = DEGAULT_LON
     adict = dict(types=TYPE,
@@ -62,23 +63,34 @@ def add_nearby(request, template='add.html'):
                               context_instance = RequestContext(request, {})
                               )
 
-def nearby(request, template='jqm/index.html'):
+def nearby(request):
     try:
-        lat = float(request.GET.get('lat', DEFAULT_LAT))
-        lon = float(request.GET.get('lon', DEFAULT_LON))
-    except ValueError:
+        lat = float(request.GET.get('lat'))
+        lon = float(request.GET.get('lon'))
+        items = Place.objects.nearby(lat, lon)
+        located = 1
+    except (ValueError, TypeError):
         lat = DEFAULT_LAT
         lon = DEFAULT_LON
-    pnt = Point(lon,lat)
-    address = OpenStreetMap().reverse(Point(lon, lat))
+        items = Place.objects.browse(lat, lon)
+        located = 0
     
-    items = Place.objects.nearby(lat, lon)
-    return render_to_response(template,
-                              {'items': items,
-                               'point': address,
-                               'located': 0,
-                               'lat': lat,
-                               'lon': lon
-                               },
-                              context_instance = RequestContext(request, {})
-                              )
+    slist = []
+    for item in items:
+        el = dict(pk=item.pk,
+                  name=item.name,
+                  coord = str(item.coord),
+                  address=item.address,
+                  distance=item.distance,
+                  orientation=item.orientation
+                  )
+        slist.append(el)
+    items = slist
+    address = OpenStreetMap().reverse(Point(lon, lat))
+    response_data = {'items': items,
+              'point': address, #"POINT(%s %s)" % (lon, lat),
+              'located': located,
+              'lat': lat,
+              'lon': lon
+              }
+    return HttpResponse(json.dumps(response_data), content_type="application/json")        
