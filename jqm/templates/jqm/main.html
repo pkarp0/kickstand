@@ -15,37 +15,54 @@
 {% include "jqm/add_page.html" %}
 <script>
 function places(data){
- 	var location = "Your location: " + data.point;
+ 	var location = 'Your location: ' + data.point;
  	$("#location").html(location);
- 	var items = [];
  	for (var i=0; i < data.items.length; i++) {
   		var ditem = data.items[i];
 		var item = '<li><a href="/place/' + ditem.pk + '">' + ditem.name + '  (' + ditem.distance.toFixed(2) + ' mi. ' + ditem.orientation + ')</a></li>';
-   		$("#place-content").append(item)
+   		$("#place-content").append(item);
  	}
  	$("#place-content").listview("refresh");
 }
 
+var user_location;
+function location_params(){
+	return '?lat=' + user_location.coords.latitude + '&lon=' + user_location.coords.longitude;
+}
+
 function GetLocation(location) {
 	// alert("/?lat=" + location.coords.latitude + "&lon=" + location.coords.longitude);
-	qparams = "lat=" + location.coords.latitude + "&lon=" + location.coords.longitude;
-	$.getJSON("{% url 'nearby' %}?" + qparams, places);
+	user_location = location;
+	$.getJSON("{% url 'nearby' %}" + location_params(), places);
 }
 
 function browse_only(err){
 	// hide add button
-	$("#add-button").hide()
+	$("#add-button").hide();
 	// hide near button
-	$("#add-button").hide()
+	$("#near-button").hide();
 	$.getJSON("{% url 'nearby' %}", places);	
 }
 
 function add_nearby(){
-	$.getJSON("{% url 'add-nearby 5}", function(data){
-		var option =  '<option value="' + {{item.name}} + '" data-vicinity="' + {{item.vicinity}} + '" data-coord="POINT(' + {{item.geometry.location.lng}} + ' ' + {{item.geometry.location.lat}} + ')">' + {{item.name}} + ': ' + {{item.vicinity}} + '</option>';		
+	$.getJSON("{% url 'add_nearby' %}" + location_params(), function(data){
+		var mdata = data[0];
+	 	var location = "Your location: " + mdata.point;
+ 		$("#add-page-location").html(location);
+
+ 		for (var i=0; i < mdata.items.length; i++) {
+  			var ditem = mdata.items[i];
+  			var coord = 'POINT(' + ditem.geometry.location.lng + ' ' + ditem.geometry.location.lat + ')'; 
+			var option =  '<option value="' + ditem.name + '" data-vicinity="' + ditem.vicinity + '" data-coord="' + coord + '">' + ditem.name + ': ' + ditem.vicinity + '</option>';
+			$("#select-choice-1").append(option);
+			if (i == 0){
+			    $('#id_name').val( ditem.name );
+    			$('#id_coord').val( coord );
+    			$('#id_address').val( ditem.vicinity );
+			}
+		}
+		$("select").selectmenu("refresh", true);
 	});
-
-
 }
 
 $(document).ready(function() {
@@ -57,6 +74,20 @@ $(document).ready(function() {
 	$("#add-page").bind("pageshow", function(event, ui){
 		add_nearby();
 	});
+
+	$( "#add-item-button" ).bind( "click", function(event, ui) {
+		var payload = {};
+		var csrfmiddlewaretoken = $("input[name*='csrf']").val()
+		var name = $('#id_name').val();
+		var address = $("#id_address").val();
+		var coord = $("#id_coord").val();
+		payload.csrfmiddlewaretoken = csrfmiddlewaretoken;
+		payload.name = name;
+		payload.address = address;
+		payload.coord = coord;
+		$.post("{% url 'add_nearby' %}", payload);		
+	});
+	
 });
 
 </script>
