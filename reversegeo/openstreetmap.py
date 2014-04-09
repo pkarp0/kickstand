@@ -27,7 +27,7 @@ class OpenStreetMap(Geocoder):
             fp = urlopen(url)
             results = json.loads(fp.read())
         except Exception as exc:
-            logger.info(exc)
+            logger.exception(exc)
             return default
 
         try:            
@@ -44,5 +44,5 @@ class OpenStreetMap(Geocoder):
 
             return result #results.get('display_name', point)
         except Exception as exc:
-            logger.info(exc)
-            return results
+            logger.error(exc)
+            return results['display_name']

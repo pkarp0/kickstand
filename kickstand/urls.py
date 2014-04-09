@@ -17,11 +17,7 @@ urlpatterns = patterns('',
     url(r'^place/', include('places.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(
-        r'^accounts/login/$','django.contrib.auth.views.login',
-        dict(
-            template_name = 'jqm/login.html',
-        ),
-        name='login',
+        r'^accounts/login/$', 'jqm.views.login', name='login',
     ),
     url(
         r'^accounts/logout/$','django.contrib.auth.views.logout',

@@ -2,17 +2,18 @@
 <html> 
 <head> 
     <title>Kickstand</title> 
-    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.0b1/jquery.mobile-1.0b1.min.css" />
+    <link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.css" />
     <link rel="stylesheet" href="/static/css/jqm-django.css" />
 
-    <script src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
-    <script src="http://code.jquery.com/mobile/1.0b1/jquery.mobile-1.0b1.min.js"></script>
-    <script src="/static/js/jqm-django.js"></script>
+    <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+    <script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.js"></script>
+    <!-- script src="/static/js/jqm-django.js"></script -->
 </head> 
 <body> 
 
 {% include "jqm/page1.html" %}
 {% include "jqm/add_page.html" %}
+{% include "jqm/login.html" %}
 <script>
 function places(data){
  	var location = 'Your location: ' + data.point;
@@ -65,16 +66,30 @@ function add_nearby(){
 	});
 }
 
-$(document).ready(function() {
- 	// initialization code goes here
- 	$("#page1").bind("pageshow", function(event, ui){
+$(document).on("pageshow", "#page1", function(){
  		navigator.geolocation.getCurrentPosition(GetLocation, browse_only);		
  	});
- 	
-	$("#add-page").bind("pageshow", function(event, ui){
+
+$(document).on("pageshow", "#add-page", function(){
 		add_nearby();
 	});
 
+var autenticated = false;
+$(document).ready(function() {
+ 	// initialization code goes here
+
+	$("#login-button").bind("click", function(event, ui){
+		var payload = {};
+		payload.username = $('#id_username').val();
+		payload.password = $('#id_password').val();
+		$.post("/accounts/login/", payload, function(data){
+			$.mobile.navigate('#page1');
+			authenticated = true;
+			$(".add-button").show();
+		});
+	});
+
+	$(".add-button").hide();
 	$( "#add-item-button" ).bind( "click", function(event, ui) {
 		var payload = {};
 		var csrfmiddlewaretoken = $("input[name*='csrf']").val()

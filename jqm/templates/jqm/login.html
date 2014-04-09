@@ -1,10 +1,16 @@
-{% extends 'jqm/simple.html' %}
-{% load i18n %}
-{% block title %}{% trans 'Log In' %}{% endblock %}
-{% block content %}
-<form action="{% url 'login' %}" data-ajax="false" method="POST">
-    {% include "jqm/formfields.html" %}
-    <input type="submit" value="{% trans 'Log In' %}" />
-    <input type="hidden" name="next" value="{{ next }}" />
-</form>
-{% endblock %}
+<section id="login-page" data-role="page" class="django-jqm-page">
+	{% include "jqm/header.html" %}
+	<div data-role="content">	
+		<form action="/accounts/login/" data-ajax="false" method="POST">
+    		<div class="field-wrapper required">
+        		<label for="id_username">Username:</label> <input id="id_username" maxlength="254" name="username" type="text" />
+    		</div>
+    		<div class="field-wrapper required">
+        		<label for="id_password">Password:</label> <input id="id_password" name="password" type="password" />
+    		</div>
+			<input id="login-button" type="button" value="Log In">
+    		<input type="hidden" name="next" value="" />
+		</form>
+	</div>
+	{% include "jqm/footer.html" %}
+</section>

@@ -1,9 +1,19 @@
 import logging
+import json
 from django.views.decorators.csrf import csrf_protect
-from django.http import HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.models import User
 from django.shortcuts import render_to_response
 from django.template import RequestContext
+from django.contrib.auth.forms import AuthenticationForm
+from django.views.decorators.debug import sensitive_post_parameters
+from django.views.decorators.cache import never_cache
+from django.views.decorators.csrf import csrf_exempt
+from django.utils.http import is_safe_url
+from django.conf import settings
+from django.shortcuts import resolve_url
+from django.contrib.auth import login as auth_login
+
 from reversegeo.openstreetmap import OpenStreetMap
 from places.models import Place, DEFAULT_LAT, DEFAULT_LON
 from jqm.forms import RegistrationForm
@@ -67,3 +77,23 @@ def register_success(request):
     return render_to_response(
     'jqm/registration/success.html',
     )
+
+
+@sensitive_post_parameters()
+@csrf_exempt
+def login(request,
+          authentication_form=AuthenticationForm,):
+    """
+    handles the login action.
+    """
+
+    if request.method == "POST":
+        form = authentication_form(request, data=request.POST)
+        if form.is_valid():
+
+            # Okay, security check complete. Log the user in.
+            auth_login(request, form.get_user())
+
+            return HttpResponse(json.dumps({'status': 'ok'}), content_type="application/json")        
+    return HttpResponse(json.dumps({'status': 'failed', 'data': request.POST}), content_type="application/json")        
+            
