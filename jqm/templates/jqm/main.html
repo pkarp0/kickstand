@@ -20,10 +20,16 @@ function places(data){
  	$("#location").html(location);
  	for (var i=0; i < data.items.length; i++) {
   		var ditem = data.items[i];
-		var item = '<li><a href="/place/' + ditem.pk + '">' + ditem.name + '  (' + ditem.distance.toFixed(2) + ' mi. ' + ditem.orientation + ')</a></li>';
+
+        var item = '<div data-role="collapsible" data-collapsed="true"><h3>' +
+        	ditem.name + '  (' + ditem.distance.toFixed(2) + ' mi. ' + ditem.orientation + ')' +
+        	'</h3>' +
+        	'<p>' + ditem.address + '</p></div>';
+
+		// var item = '<li><a href="/place/' + ditem.pk + '">' + ditem.name + '  (' + ditem.distance.toFixed(2) + ' mi. ' + ditem.orientation + ')</a></li>';
    		$("#place-content").append(item);
  	}
- 	$("#place-content").listview("refresh");
+ 	$("#place-content").collapsibleset("refresh");
 }
 
 var user_location;
@@ -74,7 +80,6 @@ $(document).on("pageshow", "#add-page", function(){
 		add_nearby();
 	});
 
-var autenticated = false;
 $(document).ready(function() {
  	// initialization code goes here
 
@@ -84,7 +89,6 @@ $(document).ready(function() {
 		payload.password = $('#id_password').val();
 		$.post("/accounts/login/", payload, function(data){
 			$.mobile.navigate('#page1');
-			authenticated = true;
 			$(".add-button").show();
 		});
 	});
