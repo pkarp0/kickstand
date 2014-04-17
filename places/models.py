@@ -17,7 +17,7 @@ DEFAULT_LON = -73.97
 class PlaceManager(models.GeoManager):
     def nearby(self, lat, lon):
         pnt = Point(lon,lat)
-        places = Place.objects.filter(coord__distance_lt=(pnt, D(mi=5)) ).distance(pnt).order_by('distance')
+        places = Place.objects.filter(active=True).filter(coord__distance_lt=(pnt, D(mi=5)) ).distance(pnt).order_by('distance')
         items = []
         for item in places:
             item.distance = item.compute_distance(lat, lon)
@@ -29,7 +29,7 @@ class PlaceManager(models.GeoManager):
         """return 10 most recent items
         and provide distance to each
         """
-        places = self.all().order_by('-id')[:10]
+        places = self.filter(active=True).order_by('-id')[:10]
         items = []
         for item in places:
             item.distance = item.compute_distance(lat, lon)
@@ -60,6 +60,7 @@ class Place(models.Model):
     name = models.CharField(max_length=128)
     coord = models.PointField()
     address = models.TextField(blank=True, null=True)
+    active = models.BooleanField(default=False)
     objects = PlaceManager()
 
     def get_absolute_url(self):
