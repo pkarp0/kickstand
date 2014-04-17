@@ -18,6 +18,8 @@
 function places(data){
  	var location = 'Your location: ' + data.point;
  	$("#location").html(location);
+ 	$("#place-content").empty();
+
  	for (var i=0; i < data.items.length; i++) {
   		var ditem = data.items[i];
 
@@ -40,14 +42,15 @@ function location_params(){
 function GetLocation(location) {
 	// alert("/?lat=" + location.coords.latitude + "&lon=" + location.coords.longitude);
 	user_location = location;
+	$(".add-button").show();
 	$.getJSON("{% url 'nearby' %}" + location_params(), places);
 }
 
 function browse_only(err){
 	// hide add button
-	$("#add-button").hide();
+	$(".add-button").hide();
 	// hide near button
-	$("#near-button").hide();
+	$(".near-button").hide();
 	$.getJSON("{% url 'nearby' %}", places);	
 }
 
@@ -56,7 +59,7 @@ function add_nearby(){
 		var mdata = data[0];
 	 	var location = "Your location: " + mdata.point;
  		$("#add-page-location").html(location);
-
+		$("#select-choice-1").empty();
  		for (var i=0; i < mdata.items.length; i++) {
   			var ditem = mdata.items[i];
   			var coord = 'POINT(' + ditem.geometry.location.lng + ' ' + ditem.geometry.location.lat + ')'; 
@@ -72,13 +75,13 @@ function add_nearby(){
 	});
 }
 
-$(document).on("pageshow", "#page1", function(){
- 		navigator.geolocation.getCurrentPosition(GetLocation, browse_only);		
- 	});
+function current_position(){
+	navigator.geolocation.getCurrentPosition(GetLocation, browse_only);		
+}
 
-$(document).on("pageshow", "#add-page", function(){
-		add_nearby();
-	});
+$(document).on("pageshow", "#page1", current_position);
+
+$(document).on("pageshow", "#add-page", add_nearby);
 
 $(document).ready(function() {
  	// initialization code goes here
@@ -93,7 +96,6 @@ $(document).ready(function() {
 		});
 	});
 
-	$(".add-button").hide();
 	$( "#add-item-button" ).bind( "click", function(event, ui) {
 		var payload = {};
 		var csrfmiddlewaretoken = $("input[name*='csrf']").val()

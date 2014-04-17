@@ -1,6 +1,7 @@
 from urllib2 import urlopen
 import json
 import logging
+from django.views.decorators.csrf import csrf_exempt
 from django.core import serializers
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render_to_response
@@ -33,7 +34,7 @@ def add(request):
         form.save()
     return HttpResponse(json.dumps({'status': 'ok'}), content_type="application/json")        
 
-
+@csrf_exempt
 def add_nearby(request, template='add.html'):
     if request.method == 'POST':
         return add(request)
