@@ -8,3 +8,5 @@ psycopg2==2.5.2
 wsgiref==0.1.2
 celery[redis]
 django-celery
+gunicorn==18.0
+

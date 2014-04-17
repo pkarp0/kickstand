@@ -36,7 +36,7 @@ class OpenStreetMap(Geocoder):
             if address.get('suburb'):
                 pass # use default format_string
             else:
-                format_string = format_string.replace('suburb','city')
+                format_string = format_string.replace('suburb','state_district')
             if address.get('house_number'):
                 format_string = '%(house_number)s ' + format_string
 
