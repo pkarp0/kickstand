@@ -72,7 +72,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.6/howto/static-files/
 
 STATIC_URL = '/static/'
-
+STATIC_ROOT = '/home/ubuntu/kickstand/static/'
 BOOTSTRAP3 = {
     'jquery_url': '//code.jquery.com/jquery.min.js',
     'base_url': '//netdna.bootstrapcdn.com/bootstrap/3.1.1/',
