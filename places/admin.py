@@ -7,4 +7,5 @@ class PlaceAdmin(admin.OSMGeoAdmin):
     list_editable = ('active',)
     search_fields = ('name',)
     save_on_top = True
+    list_filter = ('active',)    
 admin.site.register(Place, PlaceAdmin)
