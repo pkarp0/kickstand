@@ -43,7 +43,6 @@ function GetLocation(location) {
 	// alert("/?lat=" + location.coords.latitude + "&lon=" + location.coords.longitude);
 	user_location = location;
 	$(".add-button").show();
-	$.getJSON("{% url 'nearby' %}" + location_params(), places);
 }
 
 function browse_only(err){
@@ -55,6 +54,7 @@ function browse_only(err){
 }
 
 function add_nearby(){
+	navigator.geolocation.getCurrentPosition(GetLocation, browse_only);		
 	$.getJSON("{% url 'add_nearby' %}" + location_params(), function(data){
 		var mdata = data[0];
 	 	var location = "Your location: " + mdata.point;
@@ -77,6 +77,7 @@ function add_nearby(){
 
 function current_position(){
 	navigator.geolocation.getCurrentPosition(GetLocation, browse_only);		
+	$.getJSON("{% url 'nearby' %}" + location_params(), places);
 }
 
 $(document).on("pageshow", "#page1", current_position);
