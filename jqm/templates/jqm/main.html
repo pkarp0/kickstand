@@ -36,7 +36,9 @@ function places(data){
 
 var user_location;
 function location_params(){
-	return '?lat=' + user_location.coords.latitude + '&lon=' + user_location.coords.longitude;
+	if (typeof user_location != 'undefined'){
+		return '?lat=' + user_location.coords.latitude + '&lon=' + user_location.coords.longitude;
+	}
 }
 
 function GetLocation(location) {
