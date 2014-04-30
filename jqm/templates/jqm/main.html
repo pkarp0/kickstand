@@ -39,6 +39,7 @@ function location_params(){
 	if (typeof user_location != 'undefined'){
 		return '?lat=' + user_location.coords.latitude + '&lon=' + user_location.coords.longitude;
 	}
+	return ''
 }
 
 function GetLocation(location) {
