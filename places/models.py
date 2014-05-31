@@ -17,7 +17,7 @@ DEFAULT_LON = -73.97
 class PlaceManager(models.GeoManager):
     def nearby(self, lat, lon):
         pnt = Point(lon,lat)
-        places = Place.objects.filter(active=True).filter(coord__distance_lt=(pnt, D(mi=5)) ).distance(pnt).order_by('distance')
+        places = Place.objects.filter(active=True).filter(coord__distance_lt=(pnt, D(mi=1)) ).distance(pnt).order_by('distance')
         items = []
         for item in places:
             item.distance = item.compute_distance(lat, lon)
