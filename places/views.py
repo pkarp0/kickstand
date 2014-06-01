@@ -69,9 +69,10 @@ def add_nearby(request, template='add.html'):
 
 def nearby(request):
     try:
+        dist = float(request.GET.get('dist', 1.0))
         lat = float(request.GET.get('lat'))
         lon = float(request.GET.get('lon'))
-        items = Place.objects.nearby(lat, lon)
+        items = Place.objects.nearby(lat, lon, dist)
         located = 1
     except (ValueError, TypeError):
         lat = DEFAULT_LAT
