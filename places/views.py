@@ -85,6 +85,8 @@ def nearby(request):
         el = dict(pk=item.pk,
                   name=item.name,
                   coord = str(item.coord),
+                  lng = item.coord.x,
+                  lat = item.coord.y,
                   address=item.address,
                   distance=item.distance,
                   orientation=item.orientation
