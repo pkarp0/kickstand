@@ -61,7 +61,9 @@ def add_nearby(request, template='add.html'):
     #results['results'].append({u'rating': 3.9, u'name': u'Green Mango', u'reference': u'CnRrAAAARItaYCtdZd62Po36VHf9WW2sTXrG8qpkGmFJnyVwS3_xYmm66KKvKL59syysAoGIAy1tRkJUFunzEDkeJ8Lh8gccNoXAozQFfHlQcbXyvVYtvCtZvFzB4Gq56YFLfNuV0lMGMszK1CEnSiD60puDzhIQ08zZZA2XQo6T9oWr7jT7phoUnn6TeF_Fpat6T_HLyqq74s0BaLY', u'price_level': 1, u'geometry': {u'location': {u'lat': 40.710046, u'lng': -74.006858}}, u'opening_hours': {u'open_now': True}, u'vicinity': u'111 Fulton St, New York', u'photos': [{u'photo_reference': u'CnRnAAAAMneDqmA1W5fpB8vOwrt1-Ly-fsuuxuZtCWMxN5ngw7uefzf79YzD3IPC05F8lK6B-M2AzB6ORt5Yc77YB4Rmp5gCMHoNxmuIwFOtP6Ci6UoL6VJQ7syhdOekVdgq6498XSuc6i9EwUr9AnA8d2F-zhIQREi2vHHfJKrxu_t01i4ulhoU6bdgHg7BVA4GTc6Izag2luyHycA', u'width': 960, u'html_attributions': [], u'height': 720}], u'id': u'a5ce3c08a46daf1288702fac7be858ae3504d550', u'types': [u'store', u'restaurant', u'food', u'establishment'], u'icon': u'http://maps.gstatic.com/mapfiles/place_api/icons/restaurant-71.png'})
     logger.debug('params=%s; nearby=%s' % (params, results.get('results', results)))
     address = OpenStreetMap().reverse(Point(lon, lat))
-
+    # add a none of the above choice
+    nota = {u'rating': 0.0, u'name': u'None of the above', u'reference': '', u'price_level': 1, u'geometry': {u'location': {u'lat': lat, u'lng': lon}}, u'opening_hours': {u'open_now': True}, u'vicinity': address, u'photos': [{u'photo_reference': u'', u'width': 0, u'html_attributions': [], u'height': 0}], u'id': u'', u'types': [u'store', u'restaurant', u'food', u'establishment'], u'icon': u''}
+    results['results'].append(nota)
     response_data = {'locate': located,
                      'point': address,
                      'items' : results['results']},
