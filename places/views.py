@@ -63,7 +63,7 @@ def add_nearby(request, template='add.html'):
     address = OpenStreetMap().reverse(Point(lon, lat))
     # add a none of the above choice
     nota = {u'rating': 0.0, u'name': u'None of the above', u'reference': '', u'price_level': 1, u'geometry': {u'location': {u'lat': lat, u'lng': lon}}, u'opening_hours': {u'open_now': True}, u'vicinity': address, u'photos': [{u'photo_reference': u'', u'width': 0, u'html_attributions': [], u'height': 0}], u'id': u'', u'types': [u'store', u'restaurant', u'food', u'establishment'], u'icon': u''}
-    results['results'].append(nota)
+    # results['results'].append(nota)
     response_data = {'locate': located,
                      'point': address,
                      'items' : results['results']},
